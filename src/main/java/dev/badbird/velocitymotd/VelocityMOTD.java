@@ -3,10 +3,14 @@ package dev.badbird.velocitymotd;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
+import com.velocitypowered.api.command.BrigadierCommand;
+import com.velocitypowered.api.command.CommandManager;
+import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
+import dev.badbird.velocitymotd.command.VelocityMOTDCommand;
 import dev.badbird.velocitymotd.listener.PingListener;
 import dev.badbird.velocitymotd.object.MOTDConfig;
 import lombok.Getter;
@@ -30,7 +34,8 @@ public class VelocityMOTD {
     @Inject
     private Logger logger;
 
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson gson = new GsonBuilder()
+            .disableHtmlEscaping().setPrettyPrinting().create();
 
     @Getter
     private MOTDConfig motdConfig;
@@ -46,6 +51,16 @@ public class VelocityMOTD {
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
         instance = this;
+         loadConfig();
+        server.getEventManager().register(VelocityMOTD.getInstance(), new PingListener(server));
+        BrigadierCommand command = VelocityMOTDCommand.createCommand(server, this);
+        CommandManager commandManager = server.getCommandManager();
+        CommandMeta meta = commandManager.metaBuilder("velocitymotd").plugin(this).build();
+        commandManager.register(meta, command);
+    }
+
+    @SneakyThrows
+    public void loadConfig() {
         File pluginDirectory = new File("plugins/VelocityMOTD");
         if (!pluginDirectory.exists()) {
             pluginDirectory.mkdir();
@@ -60,7 +75,6 @@ public class VelocityMOTD {
         }
         motdConfig.init();
         logger.info("Loaded config!");
-        server.getEventManager().register(VelocityMOTD.getInstance(), new PingListener(server));
     }
 
     public void saveConfig() {
