@@ -12,6 +12,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import dev.badbird.velocitymotd.BuildConstants;
 import dev.badbird.velocitymotd.VelocityMOTD;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
@@ -20,14 +21,15 @@ import java.util.concurrent.CompletableFuture;
 public class VelocityMOTDCommand {
     private static final Component ROOT_MESSAGE =
             Component.text("----------------------------------------").color(NamedTextColor.GRAY).decorate(TextDecoration.STRIKETHROUGH)
-                    .append(Component.newline()
+                    .append(Component.newline().decoration(TextDecoration.STRIKETHROUGH, false)
                             .append(Component.text("VelocityMOTD").color(NamedTextColor.GOLD).decorate(TextDecoration.BOLD))
                             .append(Component.newline())
                             .append(Component.text("Version: ").color(NamedTextColor.GRAY).append(Component.text(BuildConstants.VERSION).color(NamedTextColor.GOLD)))
                             .append(Component.newline())
                             .append(Component.text("Author: ").color(NamedTextColor.GRAY).append(Component.text("Badbird5907").color(NamedTextColor.GOLD)))
                             .append(Component.newline())
-                            .append(Component.text("Github: ").color(NamedTextColor.GRAY).append(Component.text("https://github.com/Badbird5907/VelocityMOTD").color(NamedTextColor.GOLD)))
+                            .append(Component.text("Github: ").color(NamedTextColor.GRAY).append(Component.text("https://github.com/Badbird5907/VelocityMOTD")
+                                    .clickEvent(ClickEvent.openUrl("https://github.com/Badbird5907/VelocityMOTD")).color(NamedTextColor.GOLD)))
                     ).append(Component.newline())
                     .append(Component.text("----------------------------------------").color(NamedTextColor.GRAY).decorate(TextDecoration.STRIKETHROUGH));
 
