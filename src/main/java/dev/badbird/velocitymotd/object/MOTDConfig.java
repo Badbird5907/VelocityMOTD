@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
@@ -21,6 +22,7 @@ public class MOTDConfig {
     private boolean maintenance = false;
     private boolean countdown = true;
     private boolean center = true;
+    private boolean miniMessage = true;
     private String targetDateFormat = "MM/dd/yyyy HH:mm";
     private String targetDate = "01/01/2021 00:00";
     private String timezone = "EST";
@@ -63,8 +65,13 @@ public class MOTDConfig {
     public Component getMOTD() {
         Component component = Component.text("");
         for (String actualLine : getActualLines()) {
-            component = component.append(MiniMessage.miniMessage().deserialize(actualLine))
-                    .append(Component.newline());
+            if (miniMessage)
+                component = component.append(MiniMessage.miniMessage().deserialize(actualLine))
+                        .append(Component.newline());
+            else {
+                component = component.append(LegacyComponentSerializer.legacyAmpersand().deserialize(actualLine))
+                        .append(Component.newline());
+            }
         }
         return component;
     }
