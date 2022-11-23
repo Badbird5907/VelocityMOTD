@@ -27,7 +27,7 @@ public class MOTDConfig {
     private List<String> maintenanceLines = Arrays.asList("<red><bold>MAINTENANCE</bold></red>", "<red>The server is currently under maintenance.");
     private List<String> countdownLines = Arrays.asList("<gold><bold>SERVER RELEASE</bold></gold>", "<gold>%days%d %hours%h %minutes%m %seconds%s</gold>");
     private String serverVersion = "DEFAULT";
-    private int protocolVersion = 4; // 1.7.5+, velocity default
+    private int protocolVersion = 47;
     private transient long countdownTime = -1;
     private List<String> samplePlayers = Arrays.asList("&cHi", "&bHello");
 

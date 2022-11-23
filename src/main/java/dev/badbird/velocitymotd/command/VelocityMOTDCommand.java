@@ -48,7 +48,7 @@ public class VelocityMOTDCommand {
                             return future;
                         })
                         .executes(context -> {
-                                    String subCommand = StringArgumentType.getString(context, "argument");
+                                    String subCommand = context.getArgument("argument", String.class);
                                     if (subCommand.equalsIgnoreCase("reload")) {
                                         CommandSource source = context.getSource();
                                         long start = System.currentTimeMillis();
