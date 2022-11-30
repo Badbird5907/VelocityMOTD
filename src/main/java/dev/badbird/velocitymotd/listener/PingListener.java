@@ -27,6 +27,9 @@ public class PingListener {
         if (serverVersion != null && !serverVersion.isEmpty() && !serverVersion.equalsIgnoreCase("DEFAULT")) {
             versionName = serverVersion;
         }
+        if (protocolVersion < 0) {
+            protocolVersion = version.getProtocol();
+        }
         ServerPing.Version newVersion = new ServerPing.Version(protocolVersion, versionName);
 
         ServerPing.Builder description = event.getPing().asBuilder()
